@@ -94,7 +94,7 @@ namespace HowTungTung
         private IEnumerator ProcessSnapping(Vector2 target, float smoothTime)
         {
             scrollRect.velocity = Vector2.zero;
-            while (Vector2.Distance(scrollRect.content.anchoredPosition, target) > 0.05f)
+            while (Vector2.Distance(scrollRect.content.anchoredPosition, target) > 0.1f)
             {
                 yield return null;
                 scrollRect.content.anchoredPosition = Vector2.SmoothDamp(scrollRect.content.anchoredPosition, target, ref dampingVelocity, smoothTime, float.MaxValue, Time.deltaTime);
