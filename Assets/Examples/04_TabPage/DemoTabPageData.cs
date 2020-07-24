@@ -5,8 +5,22 @@ using HowTungTung;
 [Serializable]
 public class DemoTabPageData : InfiniteCellData
 {
-    public override float Height => height;
-    public override float Width => width;
+    public override float Height
+    {
+        get
+        {
+            return height;
+        }
+    }
+
+    public override float Width
+    {
+        get
+        {
+            return width;
+        }
+    }
+
     public string content;
 
     private float height;

@@ -1,7 +1,14 @@
 ﻿using HowTungTung;
 public class DemoHorizontalData : InfiniteCellData
 {
-    public override float Width => width;
+    public override float Width
+    {
+        get
+        {
+            return width;
+        }
+    }
+
     private float width;
 
     public DemoHorizontalData(float width)
