@@ -71,10 +71,11 @@ namespace HowTungTung
                 return;
             if (index >= dataList.Count)
                 return;
-            float height = 0;
-            for (int i = 0; i < index; i++)
+            var rowNumber = index / columeCount;
+            var height = 0f;
+            for (int i = 0; i < rowNumber; i ++)
             {
-                height += dataList[i].Height + spacing;
+                height += dataList[i * columeCount].Height + spacing;
             }
             if (scrollRect.content.anchoredPosition.y != height)
             {
