@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 using HowTungTung;
 public class TestGUI_01 : MonoBehaviour
 {
-    public GameObject scrollView;
     private InfiniteScrollView<DemoVerticalData> infiniteScrollView;
 
     private string dataHeight = "50";
@@ -14,7 +13,7 @@ public class TestGUI_01 : MonoBehaviour
 
     private void Awake()
     {
-        infiniteScrollView = scrollView.GetComponent<InfiniteScrollView<DemoVerticalData>>();
+        infiniteScrollView = FindObjectOfType<InfiniteScrollView<DemoVerticalData>>();
     }
 
     private void OnGUI()

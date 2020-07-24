@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 using HowTungTung;
 public class TestGUI_03 : MonoBehaviour
 {
-    public GameObject scrollView;
     private InfiniteScrollView<DemoVerticalGridData> infiniteScrollView;
 
     private string removeIndex = "0";
@@ -13,7 +12,7 @@ public class TestGUI_03 : MonoBehaviour
 
     private void Awake()
     {
-        infiniteScrollView = scrollView.GetComponent<InfiniteScrollView<DemoVerticalGridData>>();
+        infiniteScrollView = FindObjectOfType<InfiniteScrollView<DemoVerticalGridData>>();
     }
 
     private void OnGUI()
