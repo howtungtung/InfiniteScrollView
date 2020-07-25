@@ -35,7 +35,7 @@ namespace HowTungTung
 
         public void InvokeSelected()
         {
-            if(onSelected != null)
+            if (onSelected != null)
                 onSelected.Invoke(this);
         }
     }

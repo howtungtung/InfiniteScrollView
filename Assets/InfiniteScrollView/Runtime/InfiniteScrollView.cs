@@ -54,7 +54,7 @@ namespace HowTungTung
 
         public abstract void Refresh();
 
-        public void Add(T data)
+        public virtual void Add(T data)
         {
             if (!IsInitialized)
                 return;
@@ -64,7 +64,7 @@ namespace HowTungTung
             Refresh();
         }
 
-        public void Remove(int index)
+        public virtual void Remove(int index)
         {
             if (!IsInitialized)
                 return;

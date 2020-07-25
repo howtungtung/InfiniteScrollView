@@ -22,13 +22,13 @@ namespace HowTungTung
                     int index = i + j;
                     if (index >= dataList.Count)
                         break;
-                    var visibleRange = new Vector2(contentHeight, contentHeight + dataList[index].Height);
+                    var visibleRange = new Vector2(contentHeight, contentHeight + dataList[index].cellSize.y);
                     if (visibleRange.y < viewportRange.x || visibleRange.x > viewportRange.y)
                     {
                         RecycleCell(index);
                     }
                 }
-                contentHeight += dataList[i].Height + spacing;
+                contentHeight += dataList[i].cellSize.y + spacing;
             }
             contentHeight = 0;
             for (int i = 0; i < dataList.Count; i += columeCount)
@@ -38,13 +38,13 @@ namespace HowTungTung
                     int index = i + j;
                     if (index >= dataList.Count)
                         break;
-                    var visibleRange = new Vector2(contentHeight, contentHeight + dataList[index].Height);
+                    var visibleRange = new Vector2(contentHeight, contentHeight + dataList[index].cellSize.y);
                     if (visibleRange.y >= viewportRange.x && visibleRange.x <= viewportRange.y)
                     {
-                        SetupCell(index, new Vector2((dataList[index].Width + spacing) * j, -contentHeight));
+                        SetupCell(index, new Vector2((dataList[index].cellSize.x + spacing) * j, -contentHeight));
                     }
                 }
-                contentHeight += dataList[i].Height + spacing;
+                contentHeight += dataList[i].cellSize.y + spacing;
             }
         }
 
@@ -55,7 +55,7 @@ namespace HowTungTung
             float height = 0;
             for (int i = 0; i < dataList.Count; i += columeCount)
             {
-                height += dataList[i].Height + spacing;
+                height += dataList[i].cellSize.y + spacing;
             }
             for (int i = 0; i < cellList.Count; i++)
             {
@@ -75,7 +75,7 @@ namespace HowTungTung
             var height = 0f;
             for (int i = 0; i < rowNumber; i ++)
             {
-                height += dataList[i * columeCount].Height + spacing;
+                height += dataList[i * columeCount].cellSize.y + spacing;
             }
             if (scrollRect.content.anchoredPosition.y != height)
             {

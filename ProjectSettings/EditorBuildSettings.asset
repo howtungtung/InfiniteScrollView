@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Examples/04_TabPage/04_TabPage.unity
     guid: b0c65d81383004c1bbe45c885c562fa6
+  - enabled: 1
+    path: Assets/Examples/05_ChatRoom/05_ChatRoom.unity
+    guid: 1ce96fabd6bec5145bf57fe2037d6d19
   m_configObjects: {}

@@ -9,7 +9,7 @@ public class DemoTabPageCell : InfiniteCell<DemoTabPageData>
 
     public override void OnUpdate()
     {
-        RectTransform.sizeDelta = new Vector2(CellData.Width, CellData.Height);
+        RectTransform.sizeDelta = CellData.cellSize;
         text.text = CellData.content;
     }
 }

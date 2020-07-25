@@ -6,9 +6,7 @@ public class DemoHorizontalCell : InfiniteCell<DemoHorizontalData>
     public Text text;
     public override void OnUpdate()
     {
-        var size = RectTransform.sizeDelta;
-        size.x = CellData.Width;
-        RectTransform.sizeDelta = size;
-        text.text = CellData.Width.ToString();
+        RectTransform.sizeDelta = new Vector2(CellData.cellSize.x, RectTransform.sizeDelta.y);
+        text.text = CellData.cellSize.x.ToString();
     }
 }

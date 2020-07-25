@@ -15,22 +15,22 @@ namespace HowTungTung
             float contentHeight = 0;
             for (int i = 0; i < dataList.Count; i++)
             {
-                var visibleRange = new Vector2(contentHeight, contentHeight + dataList[i].Height);
+                var visibleRange = new Vector2(contentHeight, contentHeight + dataList[i].cellSize.y);
                 if (visibleRange.y < viewportRange.x || visibleRange.x > viewportRange.y)
                 {
                     RecycleCell(i);
                 }
-                contentHeight += dataList[i].Height + spacing;
+                contentHeight += dataList[i].cellSize.y + spacing;
             }
             contentHeight = 0;
             for (int i = 0; i < dataList.Count; i++)
             {
-                var visibleRange = new Vector2(contentHeight, contentHeight + dataList[i].Height);
+                var visibleRange = new Vector2(contentHeight, contentHeight + dataList[i].cellSize.y);
                 if (visibleRange.y >= viewportRange.x && visibleRange.x <= viewportRange.y)
                 {
                     SetupCell(i, new Vector2(0, -contentHeight));
                 }
-                contentHeight += dataList[i].Height + spacing;
+                contentHeight += dataList[i].cellSize.y + spacing;
             }
         }
 
@@ -41,7 +41,7 @@ namespace HowTungTung
             float height = 0;
             for (int i = 0; i < dataList.Count; i++)
             {
-                height += dataList[i].Height + spacing;
+                height += dataList[i].cellSize.y + spacing;
             }
             for (int i = 0; i < cellList.Count; i++)
             {
@@ -60,7 +60,7 @@ namespace HowTungTung
             float height = 0;
             for (int i = 0; i < index; i++)
             {
-                height += dataList[i].Height + spacing;
+                height += dataList[i].cellSize.y + spacing;
             }
             if (scrollRect.content.anchoredPosition.y != height)
             {
