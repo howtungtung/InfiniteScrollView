@@ -28,13 +28,9 @@ Developed by native UGUI system, no any magical code inside, so you can easily m
 using HowTungTung;
 public class DemoVerticalData : InfiniteCellData
 {
-    public override float Height => height;
-
-    private float height;
-
     public DemoVerticalData(float height)
     {
-        this.height = height;
+        cellSize.y = height;
     }
 }
 ```
@@ -49,10 +45,8 @@ public class DemoVerticalCell : InfiniteCell<DemoVerticalData>
 
     public override void OnUpdate()
     {
-        var size = RectTransform.sizeDelta;
-        size.y = CellData.Height;
-        RectTransform.sizeDelta = size;
-        text.text = CellData.Height.ToString();
+        RectTransform.sizeDelta = new Vector2(RectTransform.sizeDelta.x, CellData.cellSize.y);
+        text.text = CellData.cellSize.y.ToString();
     }
 }
 ```
@@ -71,7 +65,7 @@ public class Tester : MonoBehavior
 {
    private void Start()
    {
-       var infiniteScrollView = FindObjectOfType<InfiniteScrollView<DemoVerticalData>>();
+       var infiniteScrollView = FindObjectOfType<DemoVerticalScrollView>();
        for (int i = 0; i < 100; i++)
        {
            var data = new DemoVerticalData(Random.Range(50, 300));
@@ -96,3 +90,4 @@ For more detail of the example please refer to Assets/Examples
 <img src="https://imgur.com/mk39LUO.png">
 <img src="https://imgur.com/13rwdCO.png">
 <img src="https://imgur.com/nxdvC1e.png">
+<img src="https://imgur.com/wlUMawU.png">
