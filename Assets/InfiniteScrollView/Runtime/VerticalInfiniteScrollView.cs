@@ -57,6 +57,8 @@ namespace HowTungTung
                 return;
             if (index >= dataList.Count)
                 return;
+            if (scrollRect.content.rect.height < scrollRect.viewport.rect.height)
+                return;
             float height = 0;
             for (int i = 0; i < index; i++)
             {
