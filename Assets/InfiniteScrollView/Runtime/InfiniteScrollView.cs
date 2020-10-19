@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 namespace HowTungTung
 {
     [RequireComponent(typeof(ScrollRect))]
@@ -19,19 +20,23 @@ namespace HowTungTung
         protected Queue<InfiniteCell<T>> cellPool = new Queue<InfiniteCell<T>>();
         private Coroutine snappingProcesser;
         private Vector2 dampingVelocity;
+        public event Action<InfiniteCell<T>> onCellSelected;
 
-        private bool isInit;
-        public bool IsInitialized
+        public bool IsInitialized 
         {
-            get
-            {
-                return isInit;
-            }
+            get;
+            private set;
         }
 
         protected virtual void Awake()
         {
             Initialize();
+        }
+
+        protected IEnumerator Start()
+        {
+            yield return new WaitForEndOfFrame();
+            Refresh();
         }
 
         public void Initialize()
@@ -47,7 +52,7 @@ namespace HowTungTung
                 newCell.gameObject.SetActive(false);
                 cellPool.Enqueue(newCell);
             }
-            isInit = true;
+            IsInitialized = true;
         }
 
         protected abstract void OnValueChanged(Vector2 normalizedPosition);
@@ -99,7 +104,7 @@ namespace HowTungTung
                 yield return null;
                 scrollRect.content.anchoredPosition = Vector2.SmoothDamp(scrollRect.content.anchoredPosition, target, ref dampingVelocity, smoothTime, float.MaxValue, Time.deltaTime);
                 var normalizedPos = scrollRect.normalizedPosition;
-                if (normalizedPos.y < 0 || normalizedPos.x > 1)
+                if (normalizedPos.y <= 0 || normalizedPos.x >= 1)
                 {
                     normalizedPos.x = Mathf.Clamp01(normalizedPos.x);
                     normalizedPos.y = Mathf.Clamp01(normalizedPos.y);
@@ -136,9 +141,9 @@ namespace HowTungTung
             }
         }
 
-        protected virtual void OnCellSelected(InfiniteCell<T> selectedCell)
+        private void OnCellSelected(InfiniteCell<T> selectedCell)
         {
-
+            onCellSelected?.Invoke(selectedCell);
         }
     }
 }

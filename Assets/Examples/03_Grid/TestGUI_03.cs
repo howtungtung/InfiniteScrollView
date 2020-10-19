@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,6 +14,12 @@ public class TestGUI_03 : MonoBehaviour
     private void Awake()
     {
         infiniteScrollView = FindObjectOfType<InfiniteScrollView<DemoVerticalGridData>>();
+        infiniteScrollView.onCellSelected += OnCellSelected;
+    }
+
+    private void OnCellSelected(InfiniteCell<DemoVerticalGridData> selectedCell)
+    {
+        Debug.Log("On Cell Selected " + selectedCell.CellData.index);
     }
 
     private void OnGUI()
