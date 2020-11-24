@@ -104,7 +104,7 @@ namespace HowTungTung
                 yield return null;
                 scrollRect.content.anchoredPosition = Vector2.SmoothDamp(scrollRect.content.anchoredPosition, target, ref dampingVelocity, smoothTime, float.MaxValue, Time.deltaTime);
                 var normalizedPos = scrollRect.normalizedPosition;
-                if (normalizedPos.y <= 0 || normalizedPos.x >= 1)
+                if (normalizedPos.y < 0 || normalizedPos.x > 1)
                 {
                     normalizedPos.x = Mathf.Clamp01(normalizedPos.x);
                     normalizedPos.y = Mathf.Clamp01(normalizedPos.y);
