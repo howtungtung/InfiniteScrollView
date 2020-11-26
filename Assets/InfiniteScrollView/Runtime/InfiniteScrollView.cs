@@ -20,6 +20,7 @@ namespace HowTungTung
         protected Queue<InfiniteCell<T>> cellPool = new Queue<InfiniteCell<T>>();
         private Coroutine snappingProcesser;
         private Vector2 dampingVelocity;
+        private ScrollRect.MovementType movementType;
         public event Action<InfiniteCell<T>> onCellSelected;
 
         public bool IsInitialized 
@@ -52,6 +53,7 @@ namespace HowTungTung
                 newCell.gameObject.SetActive(false);
                 cellPool.Enqueue(newCell);
             }
+            movementType = scrollRect.movementType;
             IsInitialized = true;
         }
 
@@ -99,6 +101,7 @@ namespace HowTungTung
         private IEnumerator ProcessSnapping(Vector2 target, float smoothTime)
         {
             scrollRect.velocity = Vector2.zero;
+            scrollRect.movementType = ScrollRect.MovementType.Clamped;
             while (Vector2.Distance(scrollRect.content.anchoredPosition, target) > 0.1f)
             {
                 yield return null;
@@ -106,12 +109,10 @@ namespace HowTungTung
                 var normalizedPos = scrollRect.normalizedPosition;
                 if (normalizedPos.y < 0 || normalizedPos.x > 1)
                 {
-                    normalizedPos.x = Mathf.Clamp01(normalizedPos.x);
-                    normalizedPos.y = Mathf.Clamp01(normalizedPos.y);
-                    scrollRect.normalizedPosition = normalizedPos;
                     break;
                 }
             }
+            scrollRect.movementType = movementType;
             scrollRect.velocity = Vector2.zero;
             snappingProcesser = null;
         }
