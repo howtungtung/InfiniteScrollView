@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -151,6 +152,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -179,6 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -208,7 +211,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1855459387362808913}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.8405439
+  m_Size: 0.99978733
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -225,7 +228,7 @@ GameObject:
   - component: {fileID: 1855459386556294888}
   - component: {fileID: 1855459386556294889}
   - component: {fileID: 1855459386556294894}
-  - component: {fileID: 3145266155994135113}
+  - component: {fileID: 5658174704115018859}
   m_Layer: 5
   m_Name: Verical Scroll View
   m_TagString: Untagged
@@ -277,6 +280,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -321,7 +325,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3145266155994135113
+--- !u!114 &5658174704115018859
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -330,15 +334,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1855459386556294893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04f07c77de03f4f378909aca64b7b5e3, type: 3}
+  m_Script: {fileID: 11500000, guid: e2ca4ec6676a043668b29bf738af54a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cellPoolSize: 20
-  spacing: 5
-  cellPrefab: {fileID: 2185282323807420383, guid: f6aefe0343f65459b9eb3ac9a8efff80,
+  spacing: 0
+  padding: {x: 0, y: 0}
+  extendVisibleRange: 0
+  cellPrefab: {fileID: -8044281895538779753, guid: f6aefe0343f65459b9eb3ac9a8efff80,
     type: 3}
-  content: {fileID: 1855459386986698912}
-  viewport: {fileID: 1855459386407355586}
+  scrollRect: {fileID: 0}
+  cellList: []
+  isAtTop: 1
+  isAtBottom: 1
 --- !u!1 &1855459386986698913
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +379,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.035039753}
+  m_AnchoredPosition: {x: 0, y: 0.000023516286}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1855459387362808918
@@ -434,6 +442,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

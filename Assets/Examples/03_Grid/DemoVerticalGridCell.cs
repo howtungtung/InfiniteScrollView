@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using HowTungTung;
 
-public class DemoVerticalGridCell : InfiniteCell<DemoVerticalGridData>
+public class DemoVerticalGridCell : InfiniteCell
 {
     public Text text;
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3742272736191038083}
   - component: {fileID: 1780522754526658169}
   - component: {fileID: -7643584082194674932}
-  - component: {fileID: -4926297627025734778}
+  - component: {fileID: -8044281895538779753}
   m_Layer: 5
   m_Name: Vertical Cell
   m_TagString: Untagged
@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -92,6 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -133,7 +135,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &-4926297627025734778
+--- !u!114 &-8044281895538779753
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,10 +144,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2185282323807420383}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc3e28f710b764c9887fa8d8c348e595, type: 3}
+  m_Script: {fileID: 11500000, guid: 9c39542c99c2d4a87a3c47dc8d743869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 2527766050264829090}
 --- !u!1 &3486761309872580005
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +207,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

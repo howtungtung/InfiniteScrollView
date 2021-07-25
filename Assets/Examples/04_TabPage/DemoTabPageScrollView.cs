@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using HowTungTung;
-public class DemoTabPageScrollView : HorizontalInfiniteScrollView<DemoTabPageData>, IBeginDragHandler, IEndDragHandler
+public class DemoTabPageScrollView : MonoBehaviour, IBeginDragHandler, IEndDragHandler
 {
+    public InfiniteScrollView scrollView;
     public string[] pageContents;
     public Toggle[] toggles;
     public ToggleGroup toggleGroup;
@@ -16,20 +17,23 @@ public class DemoTabPageScrollView : HorizontalInfiniteScrollView<DemoTabPageDat
     private void Start()
     {
         foreach (var data in pageContents)
-            Add(new DemoTabPageData(eachContentSize, data));
+        {
+            scrollView.Add(new InfiniteCellData(eachContentSize, new DemoTabPageData { content = data }));
+        }
+        scrollView.Refresh();
     }
 
     public void OnToggleChange(int index)
     {
         if (toggles[index].isOn)
         {
-            Snap(index, 0.1f);
+            scrollView.Snap(index, 0.1f);
         }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        StopSnapping();
+        scrollView.StopSnapping();
         isEndDragging = false;
         toggleGroup.SetAllTogglesOff();
     }
@@ -43,10 +47,10 @@ public class DemoTabPageScrollView : HorizontalInfiniteScrollView<DemoTabPageDat
     {
         if (isEndDragging)
         {
-            if (Mathf.Abs(scrollRect.velocity.x) <= snapThreshold)
+            if (Mathf.Abs(scrollView.scrollRect.velocity.x) <= snapThreshold)
             {
                 isEndDragging = false;
-                var clampX = Mathf.Min(0, scrollRect.content.anchoredPosition.x);
+                var clampX = Mathf.Min(0, scrollView.scrollRect.content.anchoredPosition.x);
                 int closingIndex = Mathf.Abs(Mathf.RoundToInt(clampX / eachContentSize.x));
                 toggles[closingIndex].isOn = true;
             }

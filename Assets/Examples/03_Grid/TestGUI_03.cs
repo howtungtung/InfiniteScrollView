@@ -6,18 +6,18 @@ using UnityEngine.SceneManagement;
 using HowTungTung;
 public class TestGUI_03 : MonoBehaviour
 {
-    private InfiniteScrollView<DemoVerticalGridData> infiniteScrollView;
+    private InfiniteScrollView infiniteScrollView;
 
     private string removeIndex = "0";
     private string snapIndex = "0";
 
     private void Awake()
     {
-        infiniteScrollView = FindObjectOfType<InfiniteScrollView<DemoVerticalGridData>>();
+        infiniteScrollView = FindObjectOfType<InfiniteScrollView>();
         infiniteScrollView.onCellSelected += OnCellSelected;
     }
 
-    private void OnCellSelected(InfiniteCell<DemoVerticalGridData> selectedCell)
+    private void OnCellSelected(InfiniteCell selectedCell)
     {
         Debug.Log("On Cell Selected " + selectedCell.CellData.index);
     }
@@ -32,14 +32,16 @@ public class TestGUI_03 : MonoBehaviour
         {
             for (int i = 0; i < 1000; i++)
             {
-                var data = new DemoVerticalGridData(new Vector2(100, 100));
-                infiniteScrollView.Add(data);
+                infiniteScrollView.Add(new InfiniteCellData(new Vector2(100, 100)));
             }
+            infiniteScrollView.Refresh();
         }
         if (GUILayout.Button("Add"))
         {
-            var data = new DemoVerticalGridData(new Vector2(100, 100));
+            var data = new InfiniteCellData(new Vector2(100, 100));
             infiniteScrollView.Add(data);
+            infiniteScrollView.Refresh();
+            infiniteScrollView.SnapLast(0.1f);
         }
         GUILayout.Label("Remove Index");
         removeIndex = GUILayout.TextField(removeIndex);

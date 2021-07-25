@@ -62,6 +62,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -90,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -136,7 +138,7 @@ GameObject:
   - component: {fileID: 7911875007926243148}
   - component: {fileID: 7911875007926243149}
   - component: {fileID: 7911875007926243150}
-  - component: {fileID: 7911875007926243147}
+  - component: {fileID: 5452643276646749467}
   m_Layer: 5
   m_Name: Horizontal Scroll View
   m_TagString: Untagged
@@ -188,6 +190,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.392}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -232,7 +235,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7911875007926243147
+--- !u!114 &5452643276646749467
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -241,15 +244,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 7911875007926243152}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a621254f016a640e3809315875a6a8ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 065b04b3381564ed08d52583d00bd8ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cellPoolSize: 20
-  spacing: 5
-  cellPrefab: {fileID: 2185282323807420383, guid: a5a7df5b6f2134f40b0c88d3de699b08,
+  spacing: 0
+  padding: {x: 0, y: 0}
+  extendVisibleRange: 0
+  cellPrefab: {fileID: 7701683941884083565, guid: a5a7df5b6f2134f40b0c88d3de699b08,
     type: 3}
-  content: {fileID: 7911875008147736594}
-  viewport: {fileID: 7911875007976742847}
+  scrollRect: {fileID: 0}
+  cellList: []
+  isAtLeft: 1
+  isAtRight: 1
 --- !u!1 &7911875007976742848
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,6 +319,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -434,6 +442,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

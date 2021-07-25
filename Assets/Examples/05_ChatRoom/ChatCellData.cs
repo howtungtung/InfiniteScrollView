@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using HowTungTung;
-public class ChatCellData : InfiniteCellData
+public class ChatCellData
 {
     public string speaker;
     public string message;

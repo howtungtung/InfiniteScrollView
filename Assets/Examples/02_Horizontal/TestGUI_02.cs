@@ -5,15 +5,14 @@ using UnityEngine.SceneManagement;
 using HowTungTung;
 public class TestGUI_02 : MonoBehaviour
 {
-    private InfiniteScrollView<DemoHorizontalData> infiniteScrollView;
+    private InfiniteScrollView infiniteScrollView;
 
-    private string dataWidth = "50";
     private string removeIndex = "0";
     private string snapIndex = "0";
 
     private void Awake()
     {
-        infiniteScrollView = FindObjectOfType<InfiniteScrollView<DemoHorizontalData>>();
+        infiniteScrollView = FindObjectOfType<InfiniteScrollView>();
     }
 
     private void OnGUI()
@@ -24,18 +23,18 @@ public class TestGUI_02 : MonoBehaviour
         }
         if (GUILayout.Button("Add 100 Random Width Cell"))
         {
-            for(int i = 0; i < 100; i++)
+            for (int i = 0; i < 100; i++)
             {
-                var data = new DemoHorizontalData(Random.Range(50, 300));
-                infiniteScrollView.Add(data);
+                infiniteScrollView.Add(new InfiniteCellData(new Vector2(50, 0)));
             }
+            infiniteScrollView.Refresh();
         }
         GUILayout.Label("Add New Cell Width");
-        dataWidth = GUILayout.TextField(dataWidth);
         if (GUILayout.Button("Add"))
         {
-            var data = new DemoHorizontalData(int.Parse(dataWidth));
-            infiniteScrollView.Add(data);
+            infiniteScrollView.Add(new InfiniteCellData(new Vector2(50, 0)));
+            infiniteScrollView.Refresh();
+            infiniteScrollView.SnapLast(0.1f);
         }
         GUILayout.Label("Remove Index");
         removeIndex = GUILayout.TextField(removeIndex);

@@ -5,15 +5,14 @@ using UnityEngine.SceneManagement;
 using HowTungTung;
 public class TestGUI_01 : MonoBehaviour
 {
-    private InfiniteScrollView<DemoVerticalData> infiniteScrollView;
+    private InfiniteScrollView infiniteScrollView;
 
-    private string dataHeight = "50";
     private string removeIndex = "0";
     private string snapIndex = "0";
 
     private void Awake()
     {
-        infiniteScrollView = FindObjectOfType<InfiniteScrollView<DemoVerticalData>>();
+        infiniteScrollView = FindObjectOfType<InfiniteScrollView>();
     }
 
     private void OnGUI()
@@ -26,16 +25,17 @@ public class TestGUI_01 : MonoBehaviour
         {
             for (int i = 0; i < 100; i++)
             {
-                var data = new DemoVerticalData(Random.Range(50, 300));
+                var data = new InfiniteCellData(new Vector2(0, 50));
                 infiniteScrollView.Add(data);
             }
+            infiniteScrollView.Refresh();
         }
-        GUILayout.Label("Add New Cell Height");
-        dataHeight = GUILayout.TextField(dataHeight);
         if (GUILayout.Button("Add"))
         {
-            var data = new DemoVerticalData(int.Parse(dataHeight));
+            var data = new InfiniteCellData(new Vector2(0, 50));
             infiniteScrollView.Add(data);
+            infiniteScrollView.Refresh();
+            infiniteScrollView.SnapLast(0.1f);
         }
         GUILayout.Label("Remove Index");
         removeIndex = GUILayout.TextField(removeIndex);

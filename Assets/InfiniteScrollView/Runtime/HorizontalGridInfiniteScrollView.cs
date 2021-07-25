@@ -1,49 +1,55 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 namespace HowTungTung
 {
-    public class HorizontalInfiniteScrollView : InfiniteScrollView
+    public class HorizontalGridInfiniteScrollView : InfiniteScrollView
     {
+        public int rowCount = 1;
         public bool isAtLeft = true;
         public bool isAtRight = true;
-
-        public override void Initialize()
-        {
-            base.Initialize();
-            isAtLeft = true;
-            isAtRight = true;
-        }
-
         protected override void OnValueChanged(Vector2 normalizedPosition)
         {
-            if (dataList.Count == 0)
-                return;
+            if (rowCount <= 0)
+            {
+                rowCount = 1;
+            }
             float viewportInterval = scrollRect.viewport.rect.width;
             float minViewport = -scrollRect.content.anchoredPosition.x;
             Vector2 viewportRange = new Vector2(minViewport - extendVisibleRange, minViewport + viewportInterval + extendVisibleRange);
             float contentWidth = padding.x;
-            for (int i = 0; i < dataList.Count; i++)
+            for (int i = 0; i < dataList.Count; i += rowCount)
             {
-                var visibleRange = new Vector2(contentWidth, contentWidth + dataList[i].cellSize.x);
-                if (visibleRange.y < viewportRange.x || visibleRange.x > viewportRange.y)
+                for (int j = 0; j < rowCount; j++)
                 {
-                    RecycleCell(i);
+                    int index = i + j;
+                    if (index >= dataList.Count)
+                        break;
+                    var visibleRange = new Vector2(contentWidth, contentWidth + dataList[index].cellSize.x);
+                    if (visibleRange.y < viewportRange.x || visibleRange.x > viewportRange.y)
+                    {
+                        RecycleCell(index);
+                    }
                 }
                 contentWidth += dataList[i].cellSize.x + spacing;
             }
             contentWidth = padding.x;
-            for (int i = 0; i < dataList.Count; i++)
+            for (int i = 0; i < dataList.Count; i += rowCount)
             {
-                var visibleRange = new Vector2(contentWidth, contentWidth + dataList[i].cellSize.x);
-                if (visibleRange.y >= viewportRange.x && visibleRange.x <= viewportRange.y)
+                for (int j = 0; j < rowCount; j++)
                 {
-                    SetupCell(i, new Vector2(contentWidth, 0));
-                    if (visibleRange.y >= viewportRange.x)
-                        cellList[i].transform.SetAsLastSibling();
-                    else
-                        cellList[i].transform.SetAsFirstSibling();
+                    int index = i + j;
+                    if (index >= dataList.Count)
+                        break;
+                    var visibleRange = new Vector2(contentWidth, contentWidth + dataList[index].cellSize.x);
+                    if (visibleRange.y >= viewportRange.x && visibleRange.x <= viewportRange.y)
+                    {
+                        SetupCell(index, new Vector2(contentWidth, (dataList[index].cellSize.y + spacing) * -j));
+                        if(visibleRange.y >= viewportRange.x)
+                            cellList[index].transform.SetAsLastSibling();
+                        else
+                            cellList[index].transform.SetAsFirstSibling();
+                    }
                 }
                 contentWidth += dataList[i].cellSize.x + spacing;
             }
@@ -74,7 +80,7 @@ namespace HowTungTung
         private void DoRefresh()
         {
             float width = padding.x;
-            for (int i = 0; i < dataList.Count; i++)
+            for (int i = 0; i < dataList.Count; i += rowCount)
             {
                 width += dataList[i].cellSize.x + spacing;
             }
@@ -92,7 +98,7 @@ namespace HowTungTung
         {
             yield return waitEndOfFrame;
             DoRefresh();
-        }
+        }        
 
         public override void Snap(int index, float duration)
         {
@@ -100,12 +106,11 @@ namespace HowTungTung
                 return;
             if (index >= dataList.Count)
                 return;
-            if (scrollRect.content.rect.width < scrollRect.viewport.rect.width)
-                return;
-            float width = padding.x;
-            for (int i = 0; i < index; i++)
+            var columeNumber = index / rowCount;
+            var width = padding.x;
+            for (int i = 0; i < columeNumber; i++)
             {
-                width += dataList[i].cellSize.x + spacing;
+                width += dataList[i * rowCount].cellSize.x + spacing;
             }
             width = Mathf.Min(scrollRect.content.rect.width - scrollRect.viewport.rect.width, width);
             if (scrollRect.content.anchoredPosition.x != width)
@@ -113,12 +118,6 @@ namespace HowTungTung
                 DoSnapping(new Vector2(-width, 0), duration);
             }
         }
-
-        public override void Remove(int index)
-        {
-            var removeCell = dataList[index];
-            base.Remove(index);
-            scrollRect.content.anchoredPosition -= new Vector2(removeCell.cellSize.x + spacing, 0);
-        }
     }
 }
+

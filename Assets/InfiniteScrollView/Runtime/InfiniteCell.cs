@@ -2,9 +2,9 @@
 using System;
 namespace HowTungTung
 {
-    public abstract class InfiniteCell<T> : MonoBehaviour
+    public class InfiniteCell : MonoBehaviour
     {
-        public event Action<InfiniteCell<T>> onSelected;
+        public event Action<InfiniteCell> onSelected;
 
         private RectTransform rectTransform;
         public RectTransform RectTransform
@@ -17,8 +17,8 @@ namespace HowTungTung
             }
         }
 
-        private T cellData;
-        public T CellData
+        private InfiniteCellData cellData;
+        public InfiniteCellData CellData
         {
             set
             {
@@ -31,7 +31,7 @@ namespace HowTungTung
             }
         }
 
-        public abstract void OnUpdate();
+        public virtual void OnUpdate() { }
 
         public void InvokeSelected()
         {

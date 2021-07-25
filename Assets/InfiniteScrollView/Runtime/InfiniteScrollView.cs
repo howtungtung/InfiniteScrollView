@@ -3,57 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
+
 namespace HowTungTung
 {
     [RequireComponent(typeof(ScrollRect))]
-    public abstract class InfiniteScrollView<T> : MonoBehaviour where T : InfiniteCellData
+    public abstract class InfiniteScrollView : UIBehaviour
     {
         public int cellPoolSize = 20;
         public float spacing = 0f;
+        public Vector2 padding;
+        public float extendVisibleRange;
 
-        public GameObject cellPrefab;
-
-        protected ScrollRect scrollRect;
-        protected InfiniteCell<T> infiniteCell;
-        protected List<T> dataList = new List<T>();
-        protected List<InfiniteCell<T>> cellList = new List<InfiniteCell<T>>();
-        protected Queue<InfiniteCell<T>> cellPool = new Queue<InfiniteCell<T>>();
+        public InfiniteCell cellPrefab;
+        public ScrollRect scrollRect;
+        public List<InfiniteCellData> dataList = new List<InfiniteCellData>();
+        public List<InfiniteCell> cellList = new List<InfiniteCell>();
+        protected Queue<InfiniteCell> cellPool = new Queue<InfiniteCell>();
+        protected YieldInstruction waitEndOfFrame = new WaitForEndOfFrame();
         private Coroutine snappingProcesser;
-        private Vector2 dampingVelocity;
-        private ScrollRect.MovementType movementType;
-        public event Action<InfiniteCell<T>> onCellSelected;
+        public event Action onRectTransformUpdate;
+        public event Action<InfiniteCell> onCellSelected;
+        public Action onRefresh;
 
-        public bool IsInitialized 
+        public bool IsInitialized
         {
             get;
             private set;
         }
 
-        protected virtual void Awake()
-        {
-            Initialize();
-        }
-
-        protected IEnumerator Start()
-        {
-            yield return new WaitForEndOfFrame();
-            Refresh();
-        }
-
-        public void Initialize()
+        public virtual void Initialize()
         {
             if (IsInitialized)
                 return;
-            infiniteCell = cellPrefab.GetComponent<InfiniteCell<T>>();
             scrollRect = GetComponent<ScrollRect>();
             scrollRect.onValueChanged.AddListener(OnValueChanged);
             for (int i = 0; i < cellPoolSize; i++)
             {
-                var newCell = Instantiate(infiniteCell, scrollRect.content);
+                var newCell = Instantiate(cellPrefab, scrollRect.content);
                 newCell.gameObject.SetActive(false);
                 cellPool.Enqueue(newCell);
             }
-            movementType = scrollRect.movementType;
             IsInitialized = true;
         }
 
@@ -61,32 +51,42 @@ namespace HowTungTung
 
         public abstract void Refresh();
 
-        public virtual void Add(T data)
+        public virtual void Add(InfiniteCellData data)
         {
             if (!IsInitialized)
-                return;
+            {
+                Initialize();
+            }
             data.index = dataList.Count;
             dataList.Add(data);
             cellList.Add(null);
-            Refresh();
         }
 
         public virtual void Remove(int index)
         {
             if (!IsInitialized)
-                return;
+            {
+                Initialize();
+            }
             if (dataList.Count == 0)
                 return;
             dataList.RemoveAt(index);
             Refresh();
         }
 
-        public abstract void Snap(int index, float smoothTime);
+        public abstract void Snap(int index, float duration);
 
-        protected void DoSnapping(Vector2 target, float smoothTime)
+        public void SnapLast(float duration)
         {
+            Snap(dataList.Count - 1, duration);
+        }
+
+        protected void DoSnapping(Vector2 target, float duration)
+        {
+            if (!gameObject.activeInHierarchy)
+                return;
             StopSnapping();
-            snappingProcesser = StartCoroutine(ProcessSnapping(target, smoothTime));
+            snappingProcesser = StartCoroutine(ProcessSnapping(target, duration));
         }
 
         public void StopSnapping()
@@ -98,22 +98,27 @@ namespace HowTungTung
             }
         }
 
-        private IEnumerator ProcessSnapping(Vector2 target, float smoothTime)
+        private IEnumerator ProcessSnapping(Vector2 target, float duration)
         {
             scrollRect.velocity = Vector2.zero;
-            scrollRect.movementType = ScrollRect.MovementType.Clamped;
-            while (Vector2.Distance(scrollRect.content.anchoredPosition, target) > 0.1f)
+            Vector2 startPos = scrollRect.content.anchoredPosition;
+            float t = 0;
+            while (t < 1f)
             {
-                yield return null;
-                scrollRect.content.anchoredPosition = Vector2.SmoothDamp(scrollRect.content.anchoredPosition, target, ref dampingVelocity, smoothTime, float.MaxValue, Time.deltaTime);
+                if (duration <= 0)
+                    t = 1;
+                else
+                    t += Time.deltaTime / duration;
+                scrollRect.content.anchoredPosition = Vector2.Lerp(startPos, target, t);
                 var normalizedPos = scrollRect.normalizedPosition;
                 if (normalizedPos.y < 0 || normalizedPos.x > 1)
                 {
                     break;
                 }
+                yield return null;
             }
-            scrollRect.movementType = movementType;
-            scrollRect.velocity = Vector2.zero;
+            if (duration <= 0)
+                OnValueChanged(scrollRect.normalizedPosition);
             snappingProcesser = null;
         }
 
@@ -142,9 +147,33 @@ namespace HowTungTung
             }
         }
 
-        private void OnCellSelected(InfiniteCell<T> selectedCell)
+        private void OnCellSelected(InfiniteCell selectedCell)
         {
             onCellSelected?.Invoke(selectedCell);
+        }
+
+        public virtual void Clear()
+        {
+            if (IsInitialized == false)
+                Initialize();
+            scrollRect.velocity = Vector2.zero;
+            scrollRect.content.anchoredPosition = Vector2.zero;
+            dataList.Clear();
+            for (int i = 0; i < cellList.Count; i++)
+            {
+                RecycleCell(i);
+            }
+            cellList.Clear();
+            Refresh();
+        }
+
+        protected override void OnRectTransformDimensionsChange()
+        {
+            base.OnRectTransformDimensionsChange();
+            if (scrollRect)
+            {
+                onRectTransformUpdate?.Invoke();
+            }
         }
     }
 }
