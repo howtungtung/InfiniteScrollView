@@ -4,7 +4,7 @@ Developed by native UGUI system, no any magical code inside, so you can easily m
 
 ## Features
 1. Easy customize by OOP concept
-2. Support diffirent cell height or width
+2. Support different cell height or width
 3. Full sourcecode and example include
 
 For more detail of the example please refer to Assets/Examples
